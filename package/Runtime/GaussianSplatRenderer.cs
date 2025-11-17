@@ -479,13 +479,13 @@ namespace GaussianSplatting.Runtime
             //OnEnable will run multiple times when entering play mode from the editor
             if (m_PrevAsset != m_Asset || m_PrevHash != curHash)
             {
-                m_PrevAsset = m_Asset;
-                m_PrevHash = curHash;
-
                 m_FrameCounter = 0;
                 if (!resourcesAreSetUp)
                     return;
                 
+                m_PrevAsset = m_Asset;
+                m_PrevHash = curHash;
+
                 EnsureMaterials();
                 EnsureSorterAndRegister();
 
