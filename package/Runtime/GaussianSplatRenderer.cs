@@ -474,14 +474,23 @@ namespace GaussianSplatting.Runtime
 
         public void OnEnable()
         {
-            m_FrameCounter = 0;
-            if (!resourcesAreSetUp)
-                return;
+            var curHash = m_Asset ? m_Asset.dataHash : new Hash128();
 
-            EnsureMaterials();
-            EnsureSorterAndRegister();
+            //OnEnable will run multiple times when entering play mode from the editor
+            if (m_PrevAsset != m_Asset || m_PrevHash != curHash)
+            {
+                m_PrevAsset = m_Asset;
+                m_PrevHash = curHash;
 
-            CreateResourcesForAsset();
+                m_FrameCounter = 0;
+                if (!resourcesAreSetUp)
+                    return;
+                
+                EnsureMaterials();
+                EnsureSorterAndRegister();
+
+                CreateResourcesForAsset();
+            }
         }
 
         void SetAssetDataOnCS(CommandBuffer cmb, KernelIndices kernel)
